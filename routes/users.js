@@ -8,12 +8,30 @@ router.get("/", async (req, res, next) => {
   res.send(users);
 });
 
+router.post("/login", async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const user = await userModel
+      .findOne({
+        username,
+        password,
+      })
+      .exec();
+    if (user) {
+      res.send(user);
+    }
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
 router.post("/register", async (req, res, next) => {
   try {
     const { username, password, role } = req.body;
+    const hashedPassword = bcrypt.hashSync(password, 10);
     const newUser = new userModel({
       username,
-      password,
+      hashedPassword,
     });
     await newUser.save();
     res.send("User created");
