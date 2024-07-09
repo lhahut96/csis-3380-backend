@@ -35,15 +35,15 @@ router.post("/login", async (req, res, next) => {
           createdAt: user.createdAt,
         });
       } else {
-        res.status(400).send({
+        res.status(400).json({
           message: "Invalid password",
         });
       }
     } else {
-      res.status(400).send("Invalid username");
+      res.status(400).json("Invalid username");
     }
   } catch (error) {
-    res.status(400).send({
+    res.status(400).json({
       message: error.message,
     });
   }
