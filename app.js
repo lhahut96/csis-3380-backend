@@ -3,6 +3,8 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const mongoose = require("mongoose");
+const dbconfig = require("./config/dbconfig");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -40,6 +42,12 @@ app.use(function (err, req, res, next) {
 
 app.listen(3010, function () {
   console.log("Server is running on port 3010");
+});
+
+mongoose.connect(dbconfig.uri);
+const connection = mongoose.connection;
+connection.once("open", function () {
+  console.log("MongoDB database connection established successfully");
 });
 
 module.exports = app;
