@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const userModel = require("../models/user");
 const { hashPassword, comparePassword } = require("../helper/bcrypt");
+const jwt = require("jsonwebtoken");
 
 /* GET users listing. */
 
@@ -29,10 +30,18 @@ router.post("/login", async (req, res, next) => {
     if (user) {
       const isMatch = comparePassword(password, user.password);
       if (isMatch) {
-        res.send({
-          username: user.username,
-          role: user.role,
-          createdAt: user.createdAt,
+        const token = jwt.sign(
+          {
+            id: user._id,
+            email: user.email,
+          },
+          "lucas-moon-daniel",
+          {
+            expiresIn: "1h", // token expires in 1 hour
+          }
+        );
+        res.json({
+          token,
         });
       } else {
         res.status(400).json({

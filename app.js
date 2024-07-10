@@ -6,6 +6,7 @@ var logger = require("morgan");
 const mongoose = require("mongoose");
 const dbconfig = require("./config/dbconfig");
 var bodyParser = require("body-parser");
+var { expressjwt: jwt } = require("express-jwt");
 
 var router = require("./routes/index");
 
@@ -14,6 +15,22 @@ var app = express();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
+
+app.use(
+  jwt({ secret: "lucas-moon-daniel", algorithms: ["HS256"] }).unless({
+    path: ["/api/v1/users/login", "/api/v1/users/register"],
+  })
+);
+
+app.use((err, req, res, next) => {
+  if (err.name === "UnauthorizedError") {
+    res.status(401).json({
+      message: "Invalid token",
+    });
+  } else {
+    next(err);
+  }
+});
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
