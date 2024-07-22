@@ -15,6 +15,7 @@ var app = express();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
+app.use("./public/uploads", express.static("uploads"));
 
 app.use(
   jwt({ secret: "lucas-moon-daniel", algorithms: ["HS256"] }).unless({
