@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const dbconfig = require("./config/dbconfig");
 var bodyParser = require("body-parser");
 var { expressjwt: jwt } = require("express-jwt");
+var cors = require("cors");
 
 var router = require("./routes/index");
 
