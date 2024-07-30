@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const { title, description, price } = req;
+    const { title, description, price } = req.body;
     const newProduct = new productModel({
       title,
       description,
