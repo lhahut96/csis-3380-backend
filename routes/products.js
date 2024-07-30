@@ -38,6 +38,23 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, price } = req.body;
+    const product = await productModel.findByIdAndUpdate(
+      id,
+      { title, description, price },
+      { new: true }
+    );
+    res.json(product);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+});
+
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
