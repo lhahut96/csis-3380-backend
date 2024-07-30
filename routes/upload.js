@@ -9,7 +9,10 @@ var storage = multer.diskStorage({
     cb(null, path.join(__dirname, "../public/uploads"));
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    cb(
+      null,
+      file.originalname + "-" + Date.now() + path.extname(file.originalname)
+    );
   },
 });
 
@@ -23,4 +26,4 @@ router.post("/", upload.single("file"), function (req, res) {
   res.send("File uploaded!");
 });
 
-module.exports = router;
+module.exports = upload;

@@ -18,11 +18,11 @@ app.use(cors());
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
-app.use("./public/uploads", express.static("uploads"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(
   jwt({ secret: "lucas-moon-daniel", algorithms: ["HS256"] }).unless({
-    path: ["/api/v1/users/login", "/api/v1/users/register"],
+    path: ["/api/v1/users/login", "/api/v1/users/register", "/public/uploads/"],
   })
 );
 
