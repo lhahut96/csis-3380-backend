@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router();
 const productModel = require("../models/product");
-const upload = require("./upload");
 
 const imageArray = [
   "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
@@ -32,6 +31,18 @@ router.post("/", async (req, res) => {
     await newProduct.save();
     res.json(newProduct);
     res.json();
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await productModel.findByIdAndDelete(id);
+    res.json(product);
   } catch (error) {
     res.status(400).json({
       message: error.message,
