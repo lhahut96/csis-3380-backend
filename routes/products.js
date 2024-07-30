@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
   res.json(products);
 });
 
-router.post("/", upload.single("image"), async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { title, description, price } = req;
     const newProduct = new productModel({
