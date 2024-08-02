@@ -71,8 +71,6 @@ router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     console.log(id);
-    const findProduct = await productModel.findOne({ id });
-    console.log(findProduct);
     const removeProduct = await productModel.findOneAndDelete({ id: id });
     res.json(removeProduct);
   } catch (error) {

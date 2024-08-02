@@ -37,11 +37,12 @@ router.post("/login", async (req, res, next) => {
           },
           "lucas-moon-daniel",
           {
-            expiresIn: "1h", // token expires in 1 hour
+            expiresIn: "12h", // token expires in 1 hour
           }
         );
         res.json({
           token,
+          username: user.username,
         });
       } else {
         res.status(400).json({
