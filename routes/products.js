@@ -19,6 +19,18 @@ router.get("/", async (req, res) => {
   res.json(products);
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await productModel.findOne({ id: id });
+    res.json(product);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     const { title, description, price } = req.body;
@@ -58,8 +70,11 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await productModel.findByIdAndDelete(id);
-    res.json(product);
+    console.log(id);
+    const findProduct = await productModel.findOne({ id });
+    console.log(findProduct);
+    const removeProduct = await productModel.findOneAndDelete({ id: id });
+    res.json(removeProduct);
   } catch (error) {
     res.status(400).json({
       message: error.message,
