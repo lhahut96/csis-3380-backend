@@ -54,10 +54,9 @@ router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, price } = req.body;
-    const product = await productModel.findByIdAndUpdate(
-      id,
-      { title, description, price },
-      { new: true }
+    const product = await productModel.findOneAndUpdate(
+      { id: id },
+      { title, description, price }
     );
     res.json(product);
   } catch (error) {
