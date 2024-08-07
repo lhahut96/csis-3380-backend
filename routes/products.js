@@ -13,9 +13,15 @@ const randomImage = () => {
 };
 
 router.get("/", async (req, res) => {
+  const name = req.query.name || "";
   const page = req.query.page || 1;
   const limit = req.query.limit || 10;
-  const products = await productModel.paginate({}, { page, limit });
+  const products = await productModel.paginate(
+    {
+      title: { $regex: name, $options: "i" },
+    },
+    { page, limit }
+  );
   res.json(products);
 });
 
